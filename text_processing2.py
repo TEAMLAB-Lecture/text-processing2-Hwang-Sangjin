@@ -2,6 +2,9 @@
 # Test Processing II  #
 #######################
 
+import copy
+
+alpha = ["zero", "one" , "two","three", "four" , "five","six", "seven" , "eight","nine"]
 
 def digits_to_words(input_string):
     """
@@ -10,12 +13,15 @@ def digits_to_words(input_string):
     * 반환하는 단어들은 영어 소문자여야함
     * 단어들 사이에는 띄어쓰기 한칸이 있음
     * 만약 인풋 스트링에서 숫자가 존재하지 않는 다면, 빈 문자열 (empty string)을 반환함
+
         Parameters:
             input_string (string): 영어로 된 대문자, 소문자, 띄어쓰기, 문장부호, 숫자로 이루어진 string
             ex - "Zip Code: 19104"
+
         Returns:
             digit_string (string): 위 요건을 충족시킨 숫자만 영어단어로 추출된 string
             ex - 'one nine one zero four'
+
         Examples:
             >>> import text_processing2 as tp2
             >>> digits_str1 = "Zip Code: 19104"
@@ -25,7 +31,14 @@ def digits_to_words(input_string):
             >>> tp2.digits_to_words(digits_str2)
             'three one four one five'
     """
-    digit_string = None
+    digit_string = ""
+
+    for i in input_string:
+        if i.isdigit():
+            digit_string = digit_string + alpha[int(i)] +' '
+    
+    digit_string = digit_string.strip()
+
     return digit_string
 
 
@@ -42,10 +55,13 @@ def to_camel_case(underscore_str):
     이 문제에서 첫번째 규칙 'underscore variable' 에서 두번째 규칙 'camelcase variable'으로 변환함
     * 앞과 뒤에 여러개의 'underscore'는 무시해도 된
     * 만약 어떤 변수 이름이 underscore로만 이루어 진다면, 빈 문자열만 반환해도 됨
+
         Parameters:
             underscore_str (string): underscore case를 따른 스트링
+
         Returns:
             camelcase_str (string): camelcase를 따른 스트링
+
         Examples:
             >>> import text_processing2 as tp2
             >>> underscore_str1 = "to_camel_case"
@@ -58,5 +74,38 @@ def to_camel_case(underscore_str):
             >>> tp2.to_camel_case(underscore_str3)
             "alreadyCamel"
     """
-    camelcase_str = None
+    camelcase_str = ""
+
+    check = False
+    once = False
+
+    t = underscore_str
+
+    underscore_str = underscore_str.lower()
+
+    for i in underscore_str:
+        if check:
+            if i =='_':
+                continue
+            else:
+                camelcase_str= camelcase_str+i.upper()
+                check =False
+
+        else:
+            if i == '_':
+                check = True
+                once = True
+            else:
+                camelcase_str= camelcase_str+i
+
+    if once == False:
+        camelcase_str = t
+
+    if len(camelcase_str)!=0:
+        camelcase_str = list(camelcase_str)
+        camelcase_str[0] = camelcase_str[0].lower()
+        camelcase_str = ''.join(camelcase_str)
+
+    
+    
     return camelcase_str
