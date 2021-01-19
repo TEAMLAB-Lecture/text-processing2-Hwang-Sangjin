@@ -2,6 +2,9 @@
 # Test Processing II  #
 #######################
 
+import copy
+
+alpha = ["zero", "one" , "two","three", "four" , "five","six", "seven" , "eight","nine"]
 
 def digits_to_words(input_string):
     """
@@ -28,7 +31,14 @@ def digits_to_words(input_string):
             >>> tp2.digits_to_words(digits_str2)
             'three one four one five'
     """
-    digit_string = None
+    digit_string = ""
+
+    for i in input_string:
+        if i.isdigit():
+            digit_string = digit_string + alpha[int(i)] +' '
+    
+    digit_string = digit_string.strip()
+
     return digit_string
 
 
@@ -64,5 +74,38 @@ def to_camel_case(underscore_str):
             >>> tp2.to_camel_case(underscore_str3)
             "alreadyCamel"
     """
-    camelcase_str = None
+    camelcase_str = ""
+
+    check = False
+    once = False
+
+    t = underscore_str
+
+    underscore_str = underscore_str.lower()
+
+    for i in underscore_str:
+        if check:
+            if i =='_':
+                continue
+            else:
+                camelcase_str= camelcase_str+i.upper()
+                check =False
+
+        else:
+            if i == '_':
+                check = True
+                once = True
+            else:
+                camelcase_str= camelcase_str+i
+
+    if once == False:
+        camelcase_str = t
+
+    if len(camelcase_str)!=0:
+        camelcase_str = list(camelcase_str)
+        camelcase_str[0] = camelcase_str[0].lower()
+        camelcase_str = ''.join(camelcase_str)
+
+    
+    
     return camelcase_str
